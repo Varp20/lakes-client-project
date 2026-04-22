@@ -1,83 +1,77 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
-import { authStorage } from '@/lib/auth';
+import Link from 'next/link';
 
 export default function RegisterPage() {
   const router = useRouter();
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState(''); // Добавлено для авы
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    if (password !== confirmPassword) {
-      setError('Пароли не совпадают');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      const result = await api.register(login, email, password);
-      authStorage.setAccessToken(result.tokens.accessToken);
-      authStorage.setRefreshToken(result.tokens.refreshToken);
-      authStorage.setUser(result.user);
-      router.replace('/');
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Не удалось создать аккаунт');
-    } finally {
-      setLoading(false);
+      // Добавили avatarUrl пятым аргументом
+      await api.register(login, email, password, 'CLIENT', avatarUrl);
+      router.push('/login');
+    } catch (err: any) {
+      setError(err.message || 'Ошибка регистрации');
     }
-  }
+  };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card stack">
-        <div>
-          <div className="eyebrow">Новый клиент</div>
-          <h1 className="auth-title">Регистрация</h1>
-          <p className="muted">Регистрация отправляет роль CLIENT и не содержит административных сценариев.</p>
-        </div>
-
-        <form className="stack" onSubmit={handleSubmit}>
-          <label className="field">
-            <span>Логин</span>
-            <input value={login} onChange={(e) => setLogin(e.target.value)} placeholder="Введите логин" required />
-          </label>
-
-          <label className="field">
-            <span>Email</span>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Введите email" required />
-          </label>
-
-          <label className="field">
-            <span>Пароль</span>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Введите пароль" required />
-          </label>
-
-          <label className="field">
-            <span>Повторите пароль</span>
-            <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Повторите пароль" required />
-          </label>
-
-          {error ? <div className="error-box">{error}</div> : null}
-
-          <button className="btn" type="submit" disabled={loading}>
-            {loading ? 'Создание...' : 'Создать аккаунт'}
+    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-lg">
+        <h2 className="text-center text-3xl font-bold">Регистрация</h2>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Логин"
+            value={login}
+            onChange={(e) => setLogin(e.target.value)}
+            className="w-full rounded-md border px-3 py-2"
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full rounded-md border px-3 py-2"
+            required
+          />
+          {/* НОВОЕ ПОЛЕ: Ссылка на аватар */}
+          <input
+            type="text"
+            placeholder="Ссылка на аватар (URL)"
+            value={avatarUrl}
+            onChange={(e) => setAvatarUrl(e.target.value)}
+            className="w-full rounded-md border px-3 py-2"
+          />
+          <input
+            type="password"
+            placeholder="Пароль"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full rounded-md border px-3 py-2"
+            required
+          />
+          
+          {error && <p className="text-red-500">{error}</p>}
+          
+          <button type="submit" className="w-full rounded-md bg-emerald-500 py-2 text-white font-bold hover:bg-emerald-600">
+            Зарегистрироваться
           </button>
         </form>
-
-        <p className="muted small-text">
-          Уже есть аккаунт? <Link href="/login">Войти</Link>
+        
+        <p className="text-center">
+          Уже есть аккаунт? <Link href="/login" className="text-emerald-500">Войти</Link>
         </p>
       </div>
     </div>

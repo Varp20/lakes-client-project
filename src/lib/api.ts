@@ -118,12 +118,24 @@ export const api = {
     });
   },
 
-  register(login: string, email: string, password: string): Promise<LoginResponse> {
-    return request<LoginResponse>('/auth/register', {
+ register: async (
+    login: string,
+    email: string,
+    password: string,
+    role: 'ADMIN' | 'CLIENT' = 'CLIENT',
+    avatarUrl: string = '', // Добавили прием аватара (по умолчанию пустая строка)
+  ) => {
+    return request('/auth/register', {
       method: 'POST',
       skipAuth: true,
       retryOnUnauthorized: false,
-      body: JSON.stringify({ login, email, password, role: 'CLIENT' }),
+      body: JSON.stringify({ 
+        login, 
+        email, 
+        password, 
+        role,
+        avatarUrl // Пробрасываем в JSON
+      }),
     });
   },
 
