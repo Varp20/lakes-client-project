@@ -25,55 +25,75 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-lg">
-        <h2 className="text-center text-3xl font-bold">Регистрация</h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
+  <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+    <div className="w-full max-w-md space-y-6 rounded-xl bg-white p-8 shadow-lg">
+      <h2 className="text-center text-3xl font-bold text-gray-800">Регистрация</h2>
+      
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700">Логин</label>
           <input
             type="text"
-            placeholder="Логин"
+            placeholder="Ваш никнейм"
             value={login}
             onChange={(e) => setLogin(e.target.value)}
-            className="w-full rounded-md border px-3 py-2"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             required
           />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700">Email</label>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="example@mail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-md border px-3 py-2"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             required
           />
-          {/* НОВОЕ ПОЛЕ: Ссылка на аватар */}
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700">Ссылка на аватар (URL)</label>
           <input
             type="text"
-            placeholder="Ссылка на аватар (URL)"
+            placeholder="https://image.com/photo.jpg"
             value={avatarUrl}
             onChange={(e) => setAvatarUrl(e.target.value)}
-            className="w-full rounded-md border px-3 py-2"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700">Пароль</label>
           <input
             type="password"
-            placeholder="Пароль"
+            placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-md border px-3 py-2"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             required
           />
-          
-          {error && <p className="text-red-500">{error}</p>}
-          
-          <button type="submit" className="w-full rounded-md bg-emerald-500 py-2 text-white font-bold hover:bg-emerald-600">
-            Зарегистрироваться
-          </button>
-        </form>
-        
-        <p className="text-center">
-          Уже есть аккаунт? <Link href="/login" className="text-emerald-500">Войти</Link>
-        </p>
-      </div>
+        </div>
+
+        {error && <p className="text-sm text-red-500">{error}</p>}
+
+        <button
+          type="submit"
+          className="w-full rounded-md bg-emerald-500 py-2.5 font-semibold text-white transition-colors hover:bg-emerald-600 active:bg-emerald-700"
+        >
+          Зарегистрироваться
+        </button>
+      </form>
+
+      <p className="text-center text-sm text-gray-600">
+        Уже есть аккаунт?{' '}
+        <Link href="/login" className="font-medium text-emerald-600 hover:underline">
+          Войти
+        </Link>
+      </p>
     </div>
-  );
+  </div>
+);
 }
