@@ -1,6 +1,8 @@
 import { LoginResponse, Measurement, User, WaterBody } from '@/types';
 import { authStorage } from './auth';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://web-anal.onrender.com';
+
 type RequestOptions = RequestInit & {
   token?: string;
   skipAuth?: boolean;
