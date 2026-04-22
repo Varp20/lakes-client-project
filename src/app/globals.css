@@ -641,3 +641,55 @@ body {
     height: 40px;
   }
 }
+
+:root {
+  color-scheme: light;
+  /* Полностью переработанная палитра */
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-alt: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --brand: #10b981; /* Приятный зеленый вместо синего */
+  --brand-dark: #064e3b;
+  --danger: #ef4444;
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Обновляем шапку */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  /* Градиент от темно-зеленого к брендовому */
+  background: linear-gradient(135deg, #064e3b 0%, #10b981 100%);
+  border-bottom: none;
+}
+
+.brand-badge {
+  background: white; /* Белый логотип на зеленом фоне */
+  color: #10b981;
+  border-radius: 12px;
+}
+
+.btn {
+  border-radius: 8px; /* Более современное скругление */
+  background: var(--brand);
+  transition: transform 0.1s, background 0.2s;
+}
+
+.btn:hover {
+  background: var(--brand-dark);
+  transform: translateY(-1px);
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.map-marker {
+  background: var(--brand);
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+}
