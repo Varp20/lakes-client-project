@@ -29,8 +29,7 @@ export default function RegisterPage() {
 
     try {
       // Добавляем avatarUrl в запрос
-      const result = await api.register(login, email, password, 'CLIENT', avatarUrl);
-      authStorage.setAccessToken(result.tokens.accessToken);
+const result: any = await api.register(login, email, password, 'CLIENT', avatarUrl);      authStorage.setAccessToken(result.tokens.accessToken);
       authStorage.setRefreshToken(result.tokens.refreshToken);
       authStorage.setUser(result.user);
       router.replace('/');
